@@ -12,7 +12,7 @@ app.use(morgan('dev'));
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
 const model = genAI.getGenerativeModel({model: "gemini-1.5-flash"})
 
-app.get("/notes", async (req, res) => {
+app.post("/suggestions", async (req, res) => {
   const { content } = req.body;
 
   try {
@@ -22,7 +22,7 @@ Suggestions (3 sentences, one per line):"`;
 
     const result = await model.generateContent(prompt);
 
-    const suggestions = result.response.text().split('\n').map(suggestion => suggestion.trim()); // Extract suggestions
+    const suggestions = result.response.text().split('\n').map(suggestion => suggestion.trim());
     suggestions.pop();
     res.json(suggestions);
   } catch (error) {
