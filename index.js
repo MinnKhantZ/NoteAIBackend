@@ -22,8 +22,12 @@ Suggestions (3 sentences, one per line):"`;
 
     const result = await model.generateContent(prompt);
 
-    const suggestions = result.response.text().split('\n').map(suggestion => suggestion.trim());
+    let suggestions = result.response.text().split('\n').map(suggestion => suggestion.trim());
     suggestions.pop();
+    if (suggestions.length !== 3) {
+      suggestions = suggestions[0].split('.').map(suggestion => suggestion.trim());
+      suggestions.pop();
+    }
     res.json(suggestions);
   } catch (error) {
     console.error("Gemini API Error:", error);
