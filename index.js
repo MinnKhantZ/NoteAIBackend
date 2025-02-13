@@ -12,6 +12,10 @@ app.use(morgan('dev'));
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
 const model = genAI.getGenerativeModel({model: "gemini-1.5-flash"})
 
+app.get("/", async (req, res) => {
+  res.status(200).end();
+})
+
 app.post("/suggestions", async (req, res) => {
   const { content } = req.body;
 
